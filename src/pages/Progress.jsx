@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { progressService } from '../services/api'
-import { TrendingUp, Plus, Calendar, Weight, Ruler } from 'lucide-react'
+import { TrendingUp, Plus, Calendar, Scale, Ruler } from 'lucide-react'
 
 const Progress = () => {
   const [entries, setEntries] = useState([])
@@ -108,7 +108,7 @@ const Progress = () => {
             <div className="card text-center">
               <div className="flex justify-center mb-4">
                 <div className="p-3 bg-blue-100 rounded-full">
-                  <Weight className="h-8 w-8 text-blue-600" />
+                  <Scale className="h-8 w-8 text-blue-600" />
                 </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-800 mb-1">
@@ -359,36 +359,36 @@ const Progress = () => {
                     )}
                   </div>
 
-                  {(entry.measurements.chest || entry.measurements.waist || entry.measurements.hips || 
-                    entry.measurements.arms || entry.measurements.thighs) && (
+                  {(entry.measurements?.chest || entry.measurements?.waist || entry.measurements?.hips || 
+                    entry.measurements?.arms || entry.measurements?.thighs) && (
                     <div className="border-t pt-4">
                       <h4 className="font-semibold text-gray-800 mb-2">Medidas Corporales</h4>
                       <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
-                        {entry.measurements.chest && (
+                        {entry.measurements?.chest && (
                           <div>
                             <span className="text-gray-600">Pecho:</span>
                             <span className="font-semibold ml-1">{entry.measurements.chest} cm</span>
                           </div>
                         )}
-                        {entry.measurements.waist && (
+                        {entry.measurements?.waist && (
                           <div>
                             <span className="text-gray-600">Cintura:</span>
                             <span className="font-semibold ml-1">{entry.measurements.waist} cm</span>
                           </div>
                         )}
-                        {entry.measurements.hips && (
+                        {entry.measurements?.hips && (
                           <div>
                             <span className="text-gray-600">Caderas:</span>
                             <span className="font-semibold ml-1">{entry.measurements.hips} cm</span>
                           </div>
                         )}
-                        {entry.measurements.arms && (
+                        {entry.measurements?.arms && (
                           <div>
                             <span className="text-gray-600">Brazos:</span>
                             <span className="font-semibold ml-1">{entry.measurements.arms} cm</span>
                           </div>
                         )}
-                        {entry.measurements.thighs && (
+                        {entry.measurements?.thighs && (
                           <div>
                             <span className="text-gray-600">Muslos:</span>
                             <span className="font-semibold ml-1">{entry.measurements.thighs} cm</span>
@@ -434,4 +434,3 @@ const Progress = () => {
 }
 
 export default Progress
-
