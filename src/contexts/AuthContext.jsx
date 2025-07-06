@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
+      console.log('Intentando login con:', { email })
       const response = await api.post('/auth/login', { email, password })
       const { access_token, user } = response.data
       
@@ -49,14 +50,23 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true, user }
     } catch (error) {
-      const message = error.response?.data?.error || 'Error al iniciar sesión'
+      console.error('Error en login:', error)
+      const message = error.response?.data?.error || error.message || 'Error al iniciar sesión'
       return { success: false, error: message }
     }
   }
 
   const register = async (userData) => {
     try {
+      console.log('Intentando registro con:', { 
+        name: userData.name, 
+        email: userData.email,
+        url: api.defaults.baseURL + '/auth/register'
+      })
+      
       const response = await api.post('/auth/register', userData)
+      console.log('Respuesta del registro:', response.data)
+      
       const { access_token, user } = response.data
       
       setToken(access_token)
@@ -66,7 +76,23 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true, user }
     } catch (error) {
-      const message = error.response?.data?.error || 'Error al registrarse'
+      console.error('Error completo en registro:', error)
+      console.error('Error response:', error.response)
+      console.error('Error request:', error.request)
+      
+      let message = 'Error al registrarse'
+      
+      if (error.response) {
+        // El servidor respondió con un código de error
+        message = error.response.data?.error || error.response.data?.message || `Error ${error.response.status}`
+      } else if (error.request) {
+        // La solicitud se hizo pero no se recibió respuesta
+        message = 'No se pudo conectar con el servidor. Verifica tu conexión a internet.'
+      } else {
+        // Algo más pasó
+        message = error.message || 'Error desconocido'
+      }
+      
       return { success: false, error: message }
     }
   }
